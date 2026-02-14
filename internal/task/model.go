@@ -2,13 +2,15 @@
 package task
 
 import (
-	"time"
+	"gorm.io/datatypes"
 )
 
 type Task struct {
-	ID          int       `json:"id" gorm:"primary_key"`
-	Description string    `json:"description"`
-	CompletedAt time.Time `sql:"index" json:"completed_at"`
-	CreatedAt   time.Time `json:"created_at"`
-	DeletedAt   time.Time `sql:"index" json:"deleted_at"`
+	// We could use gorm.Model that adds to the model
+	// the ID as we have it and the fields CreatedAt, UpdatedAt and DeletedAt
+	ID          uint `gorm:"primary_key"`
+	Description string
+	CompletedAt datatypes.Date `sql:"index"`
+	CreatedAt   datatypes.Date
+	DeletedAt   datatypes.Date `sql:"index"`
 }
