@@ -5,8 +5,8 @@ import (
 )
 
 type Repository interface {
-	Create(ctx context.Context, task *[]Task) ([]int, error)
-	Delete(ctx context.Context, task *[]Task) error
-	Get(ctx context.Context, ids []int, params []string) ([]Task, error)
-	Complete(ctx context.Context, ids []int) error
+	Create(ctx context.Context, tasks []Task) error
+	Delete(ctx context.Context, ids []int) (int, error)
+	Get(ctx context.Context, ids []int, filter ListOption) ([]Task, error)
+	Complete(ctx context.Context, ids []int) (int, error)
 }
