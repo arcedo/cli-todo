@@ -7,7 +7,10 @@ import (
 )
 
 func ConnectSqlite(path string) (*gorm.DB, error) {
-	db, err := gorm.Open(sqlite.Open(path), &gorm.Config{})
+	db, err := gorm.Open(
+		sqlite.Open(path),
+		&gorm.Config{},
+	)
 	if err != nil {
 		return nil, err
 	}
