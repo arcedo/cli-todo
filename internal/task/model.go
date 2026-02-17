@@ -19,7 +19,7 @@ type Task struct {
 
 var ErrEmptyDescription = errors.New("task description cannot be empty")
 
-func (t Task) Validate() error {
+func (t Task) validate() error {
 	if strings.TrimSpace(t.Description) == "" {
 		return ErrEmptyDescription
 	}

@@ -1,5 +1,4 @@
-// Package migrations contains database schema migration logic for the application
-package migrations
+package db
 
 import (
 	"arcedo/cli-todo/internal/task"

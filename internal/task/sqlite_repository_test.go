@@ -5,7 +5,6 @@ import (
 	"testing"
 
 	"arcedo/cli-todo/internal/db"
-	"arcedo/cli-todo/internal/migrations"
 	"arcedo/cli-todo/internal/task"
 
 	"gorm.io/gorm"
@@ -17,7 +16,7 @@ func setupRepository(t *testing.T) (*gorm.DB, task.Repository) {
 		t.Fatalf("failed to connect to sqlite: %v", err)
 	}
 
-	if err := migrations.Migrate(database); err != nil {
+	if err := db.Migrate(database); err != nil {
 		t.Fatalf("failed to migrate schema: %v", err)
 	}
 	return database, task.NewSqliteRepository(database)
