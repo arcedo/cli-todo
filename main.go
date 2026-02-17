@@ -12,7 +12,10 @@ import (
 func main() {
 	database, err := db.ConnectSqlite("cli-todo.db")
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("failed to connect SQLite: %v", err)
+	}
+	if err = db.Migrate(database); err != nil {
+		log.Fatalf("failed to migrate schema: %v", err)
 	}
 	repo := task.NewSqliteRepository(database)
 	service := task.NewService(repo)
