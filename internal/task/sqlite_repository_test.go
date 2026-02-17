@@ -83,7 +83,7 @@ func TestSqliteRepository_Delete(t *testing.T) {
 	})
 
 	t.Run("delete all remaining tasks", func(t *testing.T) {
-		all, _ := repo.Get(ctx, nil, task.ListAll)
+		all, _ := repo.Get(ctx, nil, task.All)
 		var ids []int
 		for _, tk := range all {
 			ids = append(ids, int(tk.ID))
@@ -143,7 +143,7 @@ func TestSqliteRepository_Get(t *testing.T) {
 	}
 
 	t.Run("get all tasks", func(t *testing.T) {
-		all, err := repo.Get(ctx, nil, task.ListAll)
+		all, err := repo.Get(ctx, nil, task.All)
 		if err != nil {
 			t.Fatalf("failed to get all tasks: %v", err)
 		}
@@ -153,7 +153,7 @@ func TestSqliteRepository_Get(t *testing.T) {
 	})
 
 	t.Run("get completed tasks", func(t *testing.T) {
-		completed, err := repo.Get(ctx, nil, task.ListCompleted)
+		completed, err := repo.Get(ctx, nil, task.Completed)
 		if err != nil {
 			t.Fatalf("failed to get completed tasks: %v", err)
 		}
@@ -166,7 +166,7 @@ func TestSqliteRepository_Get(t *testing.T) {
 	})
 
 	t.Run("get uncompleted tasks", func(t *testing.T) {
-		uncompleted, err := repo.Get(ctx, nil, task.ListUncompleted)
+		uncompleted, err := repo.Get(ctx, nil, task.Uncompleted)
 		if err != nil {
 			t.Fatalf("failed to get uncompleted tasks: %v", err)
 		}
@@ -176,7 +176,7 @@ func TestSqliteRepository_Get(t *testing.T) {
 	})
 
 	t.Run("get by specific IDs", func(t *testing.T) {
-		specific, err := repo.Get(ctx, []int{int(tasks[1].ID)}, task.ListAll)
+		specific, err := repo.Get(ctx, []int{int(tasks[1].ID)}, task.All)
 		if err != nil {
 			t.Fatalf("failed to get specific task: %v", err)
 		}

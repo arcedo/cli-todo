@@ -3,6 +3,7 @@ package task
 
 import (
 	"errors"
+	"fmt"
 	"strings"
 	"time"
 )
@@ -21,15 +22,25 @@ var ErrEmptyDescription = errors.New("task description cannot be empty")
 
 func (t Task) validate() error {
 	if strings.TrimSpace(t.Description) == "" {
-		return ErrEmptyDescription
+		return fmt.Errorf("task '%s': %w", t.Description, ErrEmptyDescription)
 	}
 	return nil
 }
 
-type ListOption string
+type ListFilter string
 
 const (
-	ListAll         ListOption = "all"
-	ListUncompleted ListOption = "uncompleted"
-	ListCompleted   ListOption = "completed"
+	All         ListFilter = "all"
+	Uncompleted ListFilter = "uncompleted"
+	Completed   ListFilter = "completed"
 )
+
+// Maybe in a future we add order by value commands
+/*
+type ListOrderValue string
+
+const (
+	CreatedAt   ListOrderValue = "created"
+	DeletedAt   ListOrderValue = "deleted"
+	CompletedAt ListOrderValue = "completed"
+)*/

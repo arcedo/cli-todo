@@ -30,17 +30,17 @@ func (r *SqliteRepository) Delete(ctx context.Context, ids []int) (rowsDeleted i
 	return rowsDeleted, nil
 }
 
-func (r *SqliteRepository) Get(ctx context.Context, ids []int, filter ListOption) (tasks []Task, err error) {
+func (r *SqliteRepository) Get(ctx context.Context, ids []int, filter ListFilter) (tasks []Task, err error) {
 	db := r.db.WithContext(ctx)
 	if len(ids) != 0 {
 		db = db.Where("id IN ?", ids)
 	} else {
 		switch filter {
-		case ListAll:
+		case All:
 			// Do nothing
-		case ListCompleted:
+		case Completed:
 			db = db.Where("completed_at IS NOT NULL")
-		case ListUncompleted:
+		case Uncompleted:
 			db = db.Where("completed_at IS NULL")
 		}
 	}
