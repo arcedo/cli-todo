@@ -2,31 +2,37 @@
 package cli
 
 import (
-	"fmt"
+	"context"
+	"io"
 
 	"arcedo/cli-todo/internal/task"
 )
 
-func Run(args []string, taskService *task.Service) {
+type CLI struct {
+	taskService *task.Service
+	out         io.Writer
+	errOut      io.Writer
+}
+
+func New(taskService *task.Service, out io.Writer, errOut io.Writer) *CLI {
+	return &CLI{
+		taskService,
+		out,
+		errOut,
+	}
+}
+
+func (c *CLI) Run(ctx context.Context, args []string) {
 	if len(args) < 2 {
-		printUsage()
+		c.printUsage()
 		return
 	}
 
 	// I did a separated function so that in the future
 	// we want to add other entities is handled easly
-	runTask(args, taskService)
+	c.runTask(ctx, args)
 }
 
-func runTask(args []string, s *task.Service) {
-	switch args[1] {
-	case "new":
-		return
-	case "list":
-		return
-	}
-}
-
-func printUsage() {
-	fmt.Println("some usage here!")
+func (c *CLI) printUsage() {
+	println(c.out, "Usage: some usage here!")
 }

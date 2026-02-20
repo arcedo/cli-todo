@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"log"
 	"os"
 
@@ -10,6 +11,7 @@ import (
 )
 
 func main() {
+	ctx := context.Background()
 	database, err := db.ConnectSqlite("cli-todo.db")
 	if err != nil {
 		log.Fatalf("failed to connect SQLite: %v", err)
@@ -19,5 +21,7 @@ func main() {
 	}
 	repo := task.NewSqliteRepository(database)
 	service := task.NewService(repo)
-	cli.Run(os.Args, service)
+
+	cli := cli.New(service, os.Stdout, os.Stderr)
+	cli.Run(ctx, os.Args)
 }
