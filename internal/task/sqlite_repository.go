@@ -21,7 +21,7 @@ func (r *SqliteRepository) Create(ctx context.Context, tasks []Task) error {
 
 func (r *SqliteRepository) Delete(ctx context.Context, ids []int) (rowsDeleted int, err error) {
 	rowsDeleted, err = gorm.G[Task](r.db).
-		Where("id IN ?", ids).
+		Where("id IN ? AND deleted_at IS NULL", ids).
 		Update(ctx, "deleted_at", time.Now())
 	if err != nil {
 		return 0, err
@@ -39,9 +39,9 @@ func (r *SqliteRepository) Get(ctx context.Context, ids []int, filter ListFilter
 		case All:
 			// Do nothing
 		case Completed:
-			db = db.Where("completed_at IS NOT NULL")
+			db = db.Where("completed_at IS NOT NULL AND deleted_at IS NULL")
 		case Uncompleted:
-			db = db.Where("completed_at IS NULL")
+			db = db.Where("completed_at IS NULL AND deleted_at IS NULL")
 		}
 	}
 
