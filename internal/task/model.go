@@ -30,6 +30,7 @@ func (t Task) validate() error {
 type ListFilter string
 
 const (
+	IDs         ListFilter = "ids"
 	All         ListFilter = "all"
 	Uncompleted ListFilter = "uncompleted"
 	Completed   ListFilter = "completed"

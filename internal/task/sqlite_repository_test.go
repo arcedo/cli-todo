@@ -83,9 +83,9 @@ func TestSqliteRepository_Delete(t *testing.T) {
 	})
 
 	t.Run("delete all remaining tasks", func(t *testing.T) {
-		all, _ := repo.Get(ctx, nil, task.All)
+		tasks, _ := repo.Get(ctx, nil, task.Uncompleted)
 		var ids []int
-		for _, tk := range all {
+		for _, tk := range tasks {
 			ids = append(ids, int(tk.ID))
 		}
 		deleted, _ := repo.Delete(ctx, ids)
@@ -176,7 +176,7 @@ func TestSqliteRepository_Get(t *testing.T) {
 	})
 
 	t.Run("get by specific IDs", func(t *testing.T) {
-		specific, err := repo.Get(ctx, []int{int(tasks[1].ID)}, task.All)
+		specific, err := repo.Get(ctx, []int{int(tasks[1].ID)}, task.IDs)
 		if err != nil {
 			t.Fatalf("failed to get specific task: %v", err)
 		}
