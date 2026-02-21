@@ -34,6 +34,7 @@ const (
 	All         ListFilter = "all"
 	Uncompleted ListFilter = "uncompleted"
 	Completed   ListFilter = "completed"
+	Removed     ListFilter = "removed"
 )
 
 // Maybe in a future we add order by value commands

@@ -36,11 +36,13 @@ func (r *SqliteRepository) Get(ctx context.Context, ids []int, filter ListFilter
 	case IDs:
 		db = db.Where("id IN ?", ids)
 	case All:
-		// Do nothing
+		db = db.Where("deleted_at IS NULL")
 	case Completed:
 		db = db.Where("completed_at IS NOT NULL AND deleted_at IS NULL")
 	case Uncompleted:
 		db = db.Where("completed_at IS NULL AND deleted_at IS NULL")
+	case Removed:
+		db = db.Where("deleted_at IS NOT NULL")
 	}
 
 	if err = db.Find(&tasks).Error; err != nil {
