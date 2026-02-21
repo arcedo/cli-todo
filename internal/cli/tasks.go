@@ -31,7 +31,8 @@ func (c *CLI) runTask(ctx context.Context, args []string) {
 		printf(c.out, "%v of %v tasks successfully deleted\n", affected, len(ids))
 
 	case "list":
-		tasks, err := c.taskService.List(ctx, nil, task.Uncompleted)
+		IDs, filter := manageListArgs(args[2:])
+		tasks, err := c.taskService.List(ctx, IDs, filter)
 		if err != nil {
 			println(c.errOut, err)
 			return
@@ -54,6 +55,24 @@ func (c *CLI) runTask(ctx context.Context, args []string) {
 	default:
 		c.printUsage()
 	}
+}
+
+func manageListArgs(args []string) ([]int, task.ListFilter) {
+	if len(args) == 0 {
+		return nil, task.Uncompleted // default list uncompleted
+	}
+	IDs, err := validateIDs(args)
+	if err != nil {
+		switch args[0] {
+		case "all":
+			return nil, task.All
+		case "completed":
+			return nil, task.Completed
+		case "uncompleted":
+			return nil, task.Uncompleted
+		}
+	}
+	return IDs, task.IDs
 }
 
 func printTasks(out io.Writer, tasks []task.Task) {
